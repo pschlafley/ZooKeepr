@@ -12,6 +12,8 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 // parse incoming JSON data
 app.use(express.json());
+// access the public folder for use in our server
+app.use(express.static('public'));
 
 const filterByQuery = function(query, animalsArray) {
     let personalityTraitsArray = [];
@@ -120,6 +122,18 @@ app.post('/api/animals', (req, res) => {
         // req.body is where our incoming content will be
         res.json(animal);
     }
+});
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/index.html'));
+}); 
+
+app.get('/animals', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/animals.html'));
+});
+
+app.get('/zookeepers', (req, res) => {
+    res.sendFile(path.join(__dirname, './public/zookeepers.html'));
 });
 
 app.listen(PORT, () => {
